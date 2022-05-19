@@ -5,11 +5,15 @@ use App\Http\Controllers\Web\WebController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PerfilController;
 use App\Http\Controllers\Admin\ConceptoController;
+use App\Http\Controllers\Admin\DocumentoController;
+use App\Http\Controllers\Admin\GastoController;
+use App\Http\Controllers\Admin\ReclamoController;
 use App\Http\Controllers\Usuario\ContactoController;
 use App\Http\Controllers\Usuario\SeguridadController;
 use App\Http\Controllers\Usuario\DatosController;
 use App\Http\Controllers\Usuario\SuministroController;
 use App\Http\Controllers\Usuario\ReciboController;
+use App\Models\Rol;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +65,18 @@ Route::get('/lsitar-recibos/{id}', [ReciboController::class, 'listarRecibos']);
 Route::get('/buscar-persona/{dni}', [WebController::class, 'buscarPersona']);
 
 Route::get('admin/suministros', [App\Http\Controllers\Admin\SuministroController::class, 'index'])->name('suministros.admin');
-Route::post('   suministro-registrar', [App\Http\Controllers\Admin\SuministroController::class, 'store'])->name('store.suministros');
+Route::post('suministro-registrar', [App\Http\Controllers\Admin\SuministroController::class, 'store'])->name('store.suministros');
+
+Route::get('reclamos', [ReclamoController::class, 'index'])->name('reclamos.index');
+Route::get('reclamo-create', [ReclamoController::class, 'create'])->name('reclamos.create');
+Route::post('reclamo-store', [ReclamoController::class, 'store'])->name('reclamos.store');
+
+Route::get('gastos-list', [GastoController::class, 'index'])->name('gastos.index');
+Route::post('gasto-store', [GastoController::class, 'store'])->name('gastos.store');
+Route::put('gasto-update/{id}', [GastoController::class, 'update'])->name('gastos.update');
+Route::get('gasto-delete/{id}', [GastoController::class, 'destroy'])->name('gastos.destroy');
+
+Route::get('documentos-list', [DocumentoController::class, 'index'])->name('documentos.index');
+Route::post('documento-store', [DocumentoController::class, 'store'])->name('documentos.store');
+Route::put('documento-update/{id}', [DocumentoController::class, 'update'])->name('documentos.update');
+Route::get('documento-delete/{id}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');

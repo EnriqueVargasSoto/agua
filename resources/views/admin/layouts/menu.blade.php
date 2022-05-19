@@ -68,11 +68,27 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('contactanos.index')}}" class="nav-link {{ (request()->is('contactanos')) ? 'active' : '' }}">
+                <a href="{{ route('reclamos.index')}}" class="nav-link {{ (request()->is('reclamos')) ? 'active' : '' }}">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Reclamos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('gastos.index')}}" class="nav-link {{ (request()->is('gatos')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Gastos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('documentos.index')}}" class="nav-link {{ (request()->is('documentos-list')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Documentos</span>
                 </a>
             </li>
             @else
@@ -117,11 +133,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('contactanos.index')}}" class="nav-link {{ (request()->is('contactanos')) ? 'active' : '' }}">
+                <a href="{{ route('reclamos.create')}}" class="nav-link {{ (request()->is('reclamo-create')) ? 'active' : '' }}">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Reclamos</span>
+                    <span class="nav-link-text ms-1">Reclamo</span>
                 </a>
             </li>
             @endif

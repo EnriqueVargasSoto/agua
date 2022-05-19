@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2022 a las 16:42:24
+-- Tiempo de generación: 19-05-2022 a las 17:18:16
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 7.4.27
 
@@ -123,6 +123,53 @@ INSERT INTO `distritos` (`id`, `idProvincia`, `distrito`, `created_at`, `updated
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `documentos`
+--
+
+CREATE TABLE `documentos` (
+  `id` int(11) NOT NULL,
+  `idTipoDocumento` int(11) NOT NULL,
+  `titulo` varchar(250) NOT NULL,
+  `fecha` date NOT NULL,
+  `documento` varchar(250) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `documentos`
+--
+
+INSERT INTO `documentos` (`id`, `idTipoDocumento`, `titulo`, `fecha`, `documento`, `created_at`, `updated_at`) VALUES
+(1, 1, 'titulo01-edit', '2022-05-18', 'titulo01.pdf', '2022-05-19 08:02:13', '2022-05-19 08:16:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gastos`
+--
+
+CREATE TABLE `gastos` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(250) NOT NULL,
+  `monto` decimal(9,2) NOT NULL,
+  `fecha` date NOT NULL,
+  `responsable` varchar(250) NOT NULL,
+  `documento` varchar(250) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `gastos`
+--
+
+INSERT INTO `gastos` (`id`, `nombre`, `monto`, `fecha`, `responsable`, `documento`, `created_at`, `updated_at`) VALUES
+(1, 'Gasto01-edit', '150.00', '2022-05-19', 'Edwin', 'Gasto01.pdf', '2022-05-19 08:30:04', '2022-05-19 08:35:46');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `perfiles`
 --
 
@@ -235,6 +282,14 @@ CREATE TABLE `reclamos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `reclamos`
+--
+
+INSERT INTO `reclamos` (`id`, `idUsuario`, `asunto`, `mensaje`, `created_at`, `updated_at`) VALUES
+(1, 7, 'asunto02', 'ouyiuyiuyiyiuyiu', '2022-05-19 08:45:34', '2022-05-19 08:45:34'),
+(2, 7, 'asunto03', 'mkmkkmmkm', '2022-05-19 08:45:53', '2022-05-19 08:45:53');
+
 -- --------------------------------------------------------
 
 --
@@ -282,6 +337,30 @@ INSERT INTO `suministros` (`id`, `numero`, `codigo`, `idUsuario`, `direccion`, `
 (3, 3, '00003', 6, 'Calle #30', 'activo', '2022-05-01 09:37:47', '2022-05-01 09:37:47'),
 (4, 4, '00004', 7, 'Calle #30', 'activo', '2022-05-01 09:50:28', '2022-05-01 09:50:28'),
 (5, 3, '00003', 7, 'Calle #54', 'activo', '2022-05-05 21:18:24', '2022-05-05 21:18:24');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tiposdocumento`
+--
+
+CREATE TABLE `tiposdocumento` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(250) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tiposdocumento`
+--
+
+INSERT INTO `tiposdocumento` (`id`, `tipo`, `created_at`, `updated_at`) VALUES
+(1, 'Doc. Recibidos', NULL, NULL),
+(2, 'Doc. Emitidos', NULL, NULL),
+(3, 'Doc. Constitución', NULL, NULL),
+(4, 'Doc. Solicitudes', NULL, NULL),
+(5, 'Varios', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -334,6 +413,18 @@ ALTER TABLE `distritos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `documentos`
+--
+ALTER TABLE `documentos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `gastos`
+--
+ALTER TABLE `gastos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
@@ -370,6 +461,12 @@ ALTER TABLE `suministros`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `tiposdocumento`
+--
+ALTER TABLE `tiposdocumento`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -398,6 +495,18 @@ ALTER TABLE `distritos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `documentos`
+--
+ALTER TABLE `documentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `gastos`
+--
+ALTER TABLE `gastos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
@@ -419,7 +528,7 @@ ALTER TABLE `recibos`
 -- AUTO_INCREMENT de la tabla `reclamos`
 --
 ALTER TABLE `reclamos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -431,6 +540,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `suministros`
 --
 ALTER TABLE `suministros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tiposdocumento`
+--
+ALTER TABLE `tiposdocumento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --

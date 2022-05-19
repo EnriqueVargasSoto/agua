@@ -13,6 +13,10 @@ class ReclamoController extends Controller
         return view('admin.pages.reclamos.index')->with(compact('reclamos'));
     }
 
+    public function create(){
+        return view('usuario.pages.reclamos');
+    }
+
     public function misReclamos(){
         $reclamos = Reclamo::where('idUsuario', auth()->user()->id)->get();
         return view('')->with(compact('reclamos'));
@@ -24,5 +28,7 @@ class ReclamoController extends Controller
             'asunto' => $request->asunto,
             'mensaje' => $request->mensaje,
         ]);
+
+        return redirect()->route('reclamos.create');
     }
 }
