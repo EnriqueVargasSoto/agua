@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-05-2022 a las 17:18:16
--- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 7.4.27
+-- Tiempo de generación: 21-07-2022 a las 00:56:25
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `agua`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ciclos`
+--
+
+CREATE TABLE `ciclos` (
+  `id` int(11) NOT NULL,
+  `anio` varchar(50) NOT NULL,
+  `mes` varchar(50) NOT NULL,
+  `estado` enum('0','1') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `ciclos`
+--
+
+INSERT INTO `ciclos` (`id`, `anio`, `mes`, `estado`, `created_at`, `updated_at`) VALUES
+(8, '2022', 'Julio', '1', '2022-07-20 10:39:27', '2022-07-20 10:39:27'),
+(9, '2022', 'Agosto', '1', '2022-07-20 10:54:42', '2022-07-20 10:55:03'),
+(10, '2022', 'Setiembre', '1', '2022-07-20 10:55:57', '2022-07-20 10:56:08');
 
 -- --------------------------------------------------------
 
@@ -41,8 +65,8 @@ CREATE TABLE `conceptos` (
 --
 
 INSERT INTO `conceptos` (`concepto`, `valor`, `created_at`, `updated_at`, `id`, `tipo`) VALUES
-('valor', '6.00', '2022-04-17 01:55:19', '2022-04-17 01:56:19', 1, 'editable'),
-('valor suministro', '150.00', '2022-05-01 09:28:40', '2022-05-01 09:28:40', 2, 'fijo');
+('Pago de inscripción', '7.00', '2022-04-17 01:55:19', '2022-07-18 20:30:07', 1, 'editable'),
+('Precio metro cúbico', '170.00', '2022-05-01 09:28:40', '2022-07-18 20:35:07', 2, 'fijo');
 
 -- --------------------------------------------------------
 
@@ -91,6 +115,39 @@ INSERT INTO `departamentos` (`id`, `departamento`, `created_at`, `updated_at`) V
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `detalle_ciclo`
+--
+
+CREATE TABLE `detalle_ciclo` (
+  `id` int(11) NOT NULL,
+  `idCiclo` int(11) NOT NULL,
+  `idSuministro` int(11) NOT NULL,
+  `precio` decimal(9,2) NOT NULL,
+  `cantidad` decimal(9,2) NOT NULL,
+  `total` decimal(9,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `estado` enum('activo','inactivo') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `detalle_ciclo`
+--
+
+INSERT INTO `detalle_ciclo` (`id`, `idCiclo`, `idSuministro`, `precio`, `cantidad`, `total`, `created_at`, `updated_at`, `estado`) VALUES
+(10, 8, 3, '170.00', '10.00', '1700.00', '2022-07-20 10:39:28', '2022-07-20 10:49:40', 'inactivo'),
+(11, 8, 4, '170.00', '20.00', '3400.00', '2022-07-20 10:39:28', '2022-07-20 10:49:40', 'inactivo'),
+(12, 8, 5, '170.00', '30.00', '5100.00', '2022-07-20 10:39:28', '2022-07-20 10:49:40', 'inactivo'),
+(13, 9, 3, '170.00', '30.00', '5100.00', '2022-07-20 10:54:42', '2022-07-20 10:55:03', 'inactivo'),
+(14, 9, 4, '170.00', '20.00', '3400.00', '2022-07-20 10:54:42', '2022-07-20 10:55:03', 'inactivo'),
+(15, 9, 5, '170.00', '10.00', '1700.00', '2022-07-20 10:54:42', '2022-07-20 10:55:03', 'inactivo'),
+(16, 10, 3, '170.00', '10.00', '1700.00', '2022-07-20 10:55:57', '2022-07-20 10:56:08', 'inactivo'),
+(17, 10, 4, '170.00', '10.00', '1700.00', '2022-07-20 10:55:57', '2022-07-20 10:56:08', 'inactivo'),
+(18, 10, 5, '170.00', '10.00', '1700.00', '2022-07-20 10:55:57', '2022-07-20 10:56:08', 'inactivo');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `distritos`
 --
 
@@ -128,20 +185,11 @@ INSERT INTO `distritos` (`id`, `idProvincia`, `distrito`, `created_at`, `updated
 
 CREATE TABLE `documentos` (
   `id` int(11) NOT NULL,
-  `idTipoDocumento` int(11) NOT NULL,
   `titulo` varchar(250) NOT NULL,
-  `fecha` date NOT NULL,
   `documento` varchar(250) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `documentos`
---
-
-INSERT INTO `documentos` (`id`, `idTipoDocumento`, `titulo`, `fecha`, `documento`, `created_at`, `updated_at`) VALUES
-(1, 1, 'titulo01-edit', '2022-05-18', 'titulo01.pdf', '2022-05-19 08:02:13', '2022-05-19 08:16:11');
 
 -- --------------------------------------------------------
 
@@ -151,11 +199,9 @@ INSERT INTO `documentos` (`id`, `idTipoDocumento`, `titulo`, `fecha`, `documento
 
 CREATE TABLE `gastos` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(250) NOT NULL,
+  `gastos` varchar(250) NOT NULL,
   `monto` decimal(9,2) NOT NULL,
-  `fecha` date NOT NULL,
-  `responsable` varchar(250) NOT NULL,
-  `documento` varchar(250) NOT NULL,
+  `comprobante` varchar(250) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -164,8 +210,24 @@ CREATE TABLE `gastos` (
 -- Volcado de datos para la tabla `gastos`
 --
 
-INSERT INTO `gastos` (`id`, `nombre`, `monto`, `fecha`, `responsable`, `documento`, `created_at`, `updated_at`) VALUES
-(1, 'Gasto01-edit', '150.00', '2022-05-19', 'Edwin', 'Gasto01.pdf', '2022-05-19 08:30:04', '2022-05-19 08:35:46');
+INSERT INTO `gastos` (`id`, `gastos`, `monto`, `comprobante`, `created_at`, `updated_at`) VALUES
+(1, 'gasto01-edit', '10.00', 'gasto01.pdf', '2022-07-18 15:36:38', '2022-07-18 15:39:50');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `hitorial_medida`
+--
+
+CREATE TABLE `hitorial_medida` (
+  `id` int(11) NOT NULL,
+  `idSuministro` int(11) NOT NULL,
+  `montoInicio` decimal(9,2) NOT NULL,
+  `montoFin` decimal(9,2) NOT NULL,
+  `total` decimal(9,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -265,7 +327,16 @@ CREATE TABLE `recibos` (
 
 INSERT INTO `recibos` (`id`, `idSuministro`, `concepto`, `cantidad`, `valor`, `total`, `estado`, `fechaEmision`, `fechaVencimiento`, `created_at`, `updated_at`) VALUES
 (1, 3, 'Pago por instalacion de suministro', '1.00', '150.00', '150.00', 'pendiente', '2022-05-01', '2022-05-08', '2022-05-01 09:37:47', '2022-05-01 09:37:47'),
-(2, 4, 'Pago por instalacion de suministro', '1.00', '150.00', '150.00', 'pendiente', '2022-05-01', '2022-05-08', '2022-05-01 09:50:28', '2022-05-01 09:50:28');
+(2, 4, 'Pago por instalacion de suministro', '1.00', '150.00', '150.00', 'pendiente', '2022-05-01', '2022-05-08', '2022-05-01 09:50:28', '2022-05-01 09:50:28'),
+(9, 3, 'Julio 2022', '10.00', '170.00', '1700.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:49:40', '2022-07-20 10:49:40'),
+(10, 4, 'Julio 2022', '20.00', '170.00', '3400.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:49:40', '2022-07-20 10:49:40'),
+(11, 5, 'Julio 2022', '30.00', '170.00', '5100.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:49:40', '2022-07-20 10:49:40'),
+(12, 3, 'Julio 2022', '30.00', '170.00', '5100.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:55:03', '2022-07-20 10:55:03'),
+(13, 4, 'Julio 2022', '20.00', '170.00', '3400.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:55:03', '2022-07-20 10:55:03'),
+(14, 5, 'Julio 2022', '10.00', '170.00', '1700.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:55:03', '2022-07-20 10:55:03'),
+(15, 3, 'Julio 2022', '10.00', '170.00', '1700.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:56:08', '2022-07-20 10:56:08'),
+(16, 4, 'Julio 2022', '10.00', '170.00', '1700.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:56:08', '2022-07-20 10:56:08'),
+(17, 5, 'Julio 2022', '10.00', '170.00', '1700.00', 'pendiente', '2022-07-20', '2022-08-10', '2022-07-20 10:56:08', '2022-07-20 10:56:08');
 
 -- --------------------------------------------------------
 
@@ -275,20 +346,16 @@ INSERT INTO `recibos` (`id`, `idSuministro`, `concepto`, `cantidad`, `valor`, `t
 
 CREATE TABLE `reclamos` (
   `id` int(11) NOT NULL,
-  `idUsuario` int(11) NOT NULL,
+  `idUsuario` int(11) DEFAULT NULL,
   `asunto` varchar(250) NOT NULL,
   `mensaje` text NOT NULL,
+  `nombres` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `dni` varchar(8) DEFAULT NULL,
+  `codigoSuministro` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `reclamos`
---
-
-INSERT INTO `reclamos` (`id`, `idUsuario`, `asunto`, `mensaje`, `created_at`, `updated_at`) VALUES
-(1, 7, 'asunto02', 'ouyiuyiuyiyiuyiu', '2022-05-19 08:45:34', '2022-05-19 08:45:34'),
-(2, 7, 'asunto03', 'mkmkkmmkm', '2022-05-19 08:45:53', '2022-05-19 08:45:53');
 
 -- --------------------------------------------------------
 
@@ -326,41 +393,19 @@ CREATE TABLE `suministros` (
   `direccion` varchar(250) NOT NULL,
   `estado` enum('activo','suspendido') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `medidaInicio` decimal(9,2) DEFAULT NULL,
+  `medidaFin` decimal(9,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `suministros`
 --
 
-INSERT INTO `suministros` (`id`, `numero`, `codigo`, `idUsuario`, `direccion`, `estado`, `created_at`, `updated_at`) VALUES
-(3, 3, '00003', 6, 'Calle #30', 'activo', '2022-05-01 09:37:47', '2022-05-01 09:37:47'),
-(4, 4, '00004', 7, 'Calle #30', 'activo', '2022-05-01 09:50:28', '2022-05-01 09:50:28'),
-(5, 3, '00003', 7, 'Calle #54', 'activo', '2022-05-05 21:18:24', '2022-05-05 21:18:24');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tiposdocumento`
---
-
-CREATE TABLE `tiposdocumento` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(250) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `tiposdocumento`
---
-
-INSERT INTO `tiposdocumento` (`id`, `tipo`, `created_at`, `updated_at`) VALUES
-(1, 'Doc. Recibidos', NULL, NULL),
-(2, 'Doc. Emitidos', NULL, NULL),
-(3, 'Doc. Constitución', NULL, NULL),
-(4, 'Doc. Solicitudes', NULL, NULL),
-(5, 'Varios', NULL, NULL);
+INSERT INTO `suministros` (`id`, `numero`, `codigo`, `idUsuario`, `direccion`, `estado`, `created_at`, `updated_at`, `medidaInicio`, `medidaFin`) VALUES
+(3, 3, '00003', 6, 'Calle #30', 'activo', '2022-05-01 09:37:47', '2022-07-20 10:56:08', '40.00', '50.00'),
+(4, 4, '00004', 7, 'Calle #30', 'activo', '2022-05-01 09:50:28', '2022-07-20 10:56:08', '40.00', '50.00'),
+(5, 3, '00003', 7, 'Calle #54', 'activo', '2022-05-05 21:18:24', '2022-07-20 10:56:08', '40.00', '50.00');
 
 -- --------------------------------------------------------
 
@@ -395,6 +440,12 @@ INSERT INTO `usuarios` (`id`, `idPerfil`, `idRol`, `usuario`, `password`, `estad
 --
 
 --
+-- Indices de la tabla `ciclos`
+--
+ALTER TABLE `ciclos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
@@ -404,6 +455,12 @@ ALTER TABLE `conceptos`
 -- Indices de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `detalle_ciclo`
+--
+ALTER TABLE `detalle_ciclo`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -422,6 +479,12 @@ ALTER TABLE `documentos`
 -- Indices de la tabla `gastos`
 --
 ALTER TABLE `gastos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `hitorial_medida`
+--
+ALTER TABLE `hitorial_medida`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -461,12 +524,6 @@ ALTER TABLE `suministros`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `tiposdocumento`
---
-ALTER TABLE `tiposdocumento`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -475,6 +532,12 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `ciclos`
+--
+ALTER TABLE `ciclos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `conceptos`
@@ -487,6 +550,12 @@ ALTER TABLE `conceptos`
 --
 ALTER TABLE `departamentos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_ciclo`
+--
+ALTER TABLE `detalle_ciclo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `distritos`
@@ -507,6 +576,12 @@ ALTER TABLE `gastos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `hitorial_medida`
+--
+ALTER TABLE `hitorial_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
@@ -522,13 +597,13 @@ ALTER TABLE `provincias`
 -- AUTO_INCREMENT de la tabla `recibos`
 --
 ALTER TABLE `recibos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `reclamos`
 --
 ALTER TABLE `reclamos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -540,12 +615,6 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `suministros`
 --
 ALTER TABLE `suministros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `tiposdocumento`
---
-ALTER TABLE `tiposdocumento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --

@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reclamo extends Model
+class Ciclo extends Model
 {
     use HasFactory;
 
-    protected $table = 'reclamos';
+    protected $table = 'ciclos';
+
     protected $fillable = [
         'id',
-        'idUsuario',
-        'asunto',
-        'mensaje',
-        'dni',
-        'codigoSuministro'
+        'anio',
+        'mes',
+        'estado'
     ];
 }

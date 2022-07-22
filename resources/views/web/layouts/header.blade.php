@@ -22,6 +22,9 @@
                             <a href="{{ route('comite')}}"><span>Comité</span></a>
                         </li>
                         <li class="">
+                            <a href="{{ route('reclamos.web')}}"><span>Reclamos</span></a>
+                        </li>
+                        <li class="">
                             <a href="{{ route('contactanos')}}"><span>Contáctanos</span></a>
                         </li>
 

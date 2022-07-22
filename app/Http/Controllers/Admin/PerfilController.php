@@ -96,6 +96,61 @@ class PerfilController extends Controller
         return redirect()->route('/');
     }
 
+    public function storeDesdeAdmin(Request $request){
+        if($request->hasFile("imgDniFront")){
+            $file = $request->file('imgDniFront');
+            $imgDniFront = $file->getClientOriginalName();
+            $ruta = "img/dni/";
+            // dd($ruta);
+            $file->move($ruta,$imgDniFront);
+            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
+            
+            // $imagen = $nombreimagen;            
+            
+        }
+        if($request->hasFile("imgDniBack")){
+            $file = $request->file('imgDniBack');
+            $imgDniBack = $file->getClientOriginalName();
+            $ruta = "img/dni/";
+            // dd($ruta);
+            $file->move($ruta,$imgDniBack);
+            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
+            
+            // $imagen = $nombreimagen;            
+            
+        }
+        if($request->hasFile("imgEscritura")){
+            $file = $request->file('imgEscritura');
+            $imgEscritura = $file->getClientOriginalName();
+            $ruta = "img/escritura/";
+            // dd($ruta);
+            $file->move($ruta,$imgEscritura);
+            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
+            
+            // $imagen = $nombreimagen;            
+            
+        }
+        $perfil = Perfil::create([
+            'nombres' => $request->nombres,
+            'apellidoPaterno' => $request->apellidoPaterno,
+            'apellidoMaterno' => $request->apellidoMaterno,
+            'dni' => $request->dni,
+            'imgDniFront' => $imgDniFront,
+            'imgDniBack' => $imgDniBack,
+            'direccion' => $request->direccion,
+            'idDepartamento' => $request->idDepartamento,
+            'idProvincia' => $request->idProvincia,
+            'idDistrito' => $request->idDistrito,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+            'imgEscritura' => $imgEscritura,
+            'estado' => 'inactivo',
+            'estadoPago' => 'pendiente'
+        ]);
+
+        return back();//$this->activaUsuario($perfil->id);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -177,7 +232,7 @@ class PerfilController extends Controller
             'estado' => 'activo',
         ]);
 
-        $concepto = Concepto::where('concepto','Pago de inscripcion')->first();
+        $concepto = Concepto::where('concepto','Pago de inscripción')->first();
         
         $recibo = Recibo::create([
             'idSuministro' => $suministro->id,

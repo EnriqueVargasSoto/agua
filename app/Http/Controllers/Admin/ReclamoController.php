@@ -27,6 +27,8 @@ class ReclamoController extends Controller
             'idUsuario' => auth()->user()->id,
             'asunto' => $request->asunto,
             'mensaje' => $request->mensaje,
+            'dni' => $request->dni,
+            'codigoSuministro' => $request->codigo
         ]);
 
         return redirect()->route('reclamos.create');

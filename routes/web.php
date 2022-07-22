@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CicloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PerfilController;
 use App\Http\Controllers\Admin\ConceptoController;
+use App\Http\Controllers\Admin\DetalleCicloController;
 use App\Http\Controllers\Admin\DocumentoController;
 use App\Http\Controllers\Admin\GastoController;
 use App\Http\Controllers\Admin\ReclamoController;
@@ -41,6 +43,7 @@ Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard'
 
 Route::get('/solicitudes', [PerfilController::class, 'index'])->name('solicitudes');
 Route::post('/registrar-solicitud', [PerfilController::class, 'store'])->name('registrar.solicitud');
+Route::post('/registrar-solicitud-manual', [PerfilController::class, 'storeDesdeAdmin'])->name('storeDesdeAdmin.solicitud');
 Route::get('/activa-usuario/{id}', [PerfilController::class, 'activaUsuario'])->name('activa.usuario');
 Route::get('/elimina-perfil/{id}', [PerfilController::class, 'destroy'])->name('perfil.delete');
 
@@ -80,3 +83,17 @@ Route::get('documentos-list', [DocumentoController::class, 'index'])->name('docu
 Route::post('documento-store', [DocumentoController::class, 'store'])->name('documentos.store');
 Route::put('documento-update/{id}', [DocumentoController::class, 'update'])->name('documentos.update');
 Route::get('documento-delete/{id}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');
+
+Route::get('web-reclamos', [WebController::class, 'reclamos'])->name('reclamos.web');
+Route::get('web-reclamos-store', [WebController::class, 'reclamoStore'])->name('reclamos.web.store');
+
+Route::post('resultado', [WebController::class, 'buscar'])->name('resultado');
+
+Route::get('ciclos', [CicloController::class, 'index'])->name('ciclos.index');
+Route::post('ciclos-store', [CicloController::class, 'store'])->name('ciclos.store');
+Route::get('ciclos-delete/{id}', [CicloController::class, 'destroy'])->name('ciclos.destroy');
+
+Route::get('ciclo-detalle/{id}', [DetalleCicloController::class, 'detalle'])->name('detalle.index');
+Route::post('genera-recibos', [DetalleCicloController::class, 'creaRecibo'])->name('recibos.create');
+
+Route::get('recibo-ver/{id}', [ReciboController::class, 'verRecibo'])->name('recibo.ver');

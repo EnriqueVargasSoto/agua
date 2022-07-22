@@ -13,11 +13,13 @@
         
                         <!-- Job Search Form -->
                         <div class="job-search-form">
-                            <form method="post" action="https://creativelayers.net/themes/superio/job-list-v10.html">
+                            <form method="post" action="{{ route('resultado')}}">
+                                @csrf
                                 <div class="row">
+                                    
                                     <div class="form-group col-lg-9 col-md-12 col-sm-12">
                                         <span class="icon flaticon-search-1"></span>
-                                        <input type="text" name="field_name" placeholder="Ingrese su Código de Suministro">
+                                        <input type="text" name="codigo" placeholder="Ingrese su Código de Suministro">
                                     </div>
                                     <!-- Form Group 
                                     <div class="form-group col-lg-4 col-md-12 col-sm-12 location">

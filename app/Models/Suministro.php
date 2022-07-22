@@ -17,5 +17,7 @@ class Suministro extends Model
         'idUsuario',
         'direccion',
         'estado',
+        'medidaInicio',
+        'medidaFin',
     ];
 }

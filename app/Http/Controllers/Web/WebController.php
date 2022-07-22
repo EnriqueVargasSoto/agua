@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Perfil;
+use App\Models\Suministro;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Recibo;
+use App\Models\Reclamo;
 use Consulta\Laravel\Consulta;
 
 class WebController extends Controller
@@ -55,4 +60,35 @@ class WebController extends Controller
 
         return $leer_respuesta;
     }
+
+    public function reclamos(){
+        return view('web.pages.reclamos');
+    }
+
+    public function buscar(Request $request){
+        $suministro = Suministro::where('codigo', $request->codigo)->first();
+        if ($suministro != null) {
+            $usuario = User::find($suministro->idUsuario);
+            $perfil = Perfil::find($usuario->idPerfil);
+
+            $recibos = Recibo::where('idSuministro', $suministro->id)->get();
+            
+            return view('web.pages.resultado')->with(compact('suministro', 'usuario', 'perfil','recibos'));
+        } else {
+            return view('web.pages.error1');
+        }
+        
+    }
+
+    public function reclamoStore(Request $request){
+        Reclamo::create([
+            'nombres' => $request->nombres,
+            'email' => $request->email,
+            'asunto' => $request->asunto,
+            'mensaje' => $request->mensaje
+        ]);
+
+        return back();
+    }
+
 }

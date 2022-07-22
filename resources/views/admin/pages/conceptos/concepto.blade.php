@@ -127,7 +127,8 @@
                                 @if ($concepto->tipo == 'editable')
                                 <input type="text" name="concepto" class="form-control" value="{{$concepto->concepto}}">
                                 @else
-                                <input type="text" name="concepto" class="form-control" value="{{$concepto->concepto}}" disabled>
+                                <input type="text" name="concepto" class="form-control" value="{{$concepto->concepto}}" hidden>
+                                <input type="text" name="asd" class="form-control" value="{{$concepto->concepto}}" disabled>
                                 @endif
                                 
                             </div>

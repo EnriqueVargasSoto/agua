@@ -91,6 +91,14 @@
                     <span class="nav-link-text ms-1">Documentos</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('ciclos.index')}}" class="nav-link {{ (request()->is('ciclos')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Ciclos</span>
+                </a>
+            </li>
             @else
             <li class="nav-item">
                 <a href="{{ route('dashboard')}}" class="nav-link {{ (request()->is('dashboard')) ? 'active' : '' }}">

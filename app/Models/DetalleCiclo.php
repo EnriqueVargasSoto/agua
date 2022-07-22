@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reclamo extends Model
+class DetalleCiclo extends Model
 {
     use HasFactory;
 
-    protected $table = 'reclamos';
+    protected $table = 'detalle_ciclo';
     protected $fillable = [
         'id',
-        'idUsuario',
-        'asunto',
-        'mensaje',
-        'dni',
-        'codigoSuministro'
+        'idCiclo',
+        'idSuministro',
+        'precio',
+        'cantidad',
+        'total',
+        'estado'
     ];
 }

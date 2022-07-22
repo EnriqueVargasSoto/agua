@@ -10,7 +10,7 @@
             <div class="row">
               <div class="col-6"><h5 class="mb-0">Usuarios</h5></div>
               <div class="col-6">
-                <!--<button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo</button>-->
+                <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#createModal">Nuevo</button>
               </div>
             </div>
             
@@ -78,38 +78,6 @@
         </div>
       </div>
     </div>
-    <!--<footer class="footer pt-3  ">
-      <div class="container-fluid">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6 mb-lg-0 mb-4">
-            <div class="copyright text-center text-sm text-muted text-lg-start">
-              © <script>
-                document.write(new Date().getFullYear())
-              </script>,
-              made with <i class="fa fa-heart"></i> by
-              <a href="https://www.creative-tim.com/" class="font-weight-bold" target="_blank">Creative Tim</a>
-              for a better web.
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/" class="nav-link text-muted" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>-->
   </div>
   <!-- Modal Crear-->
   @foreach ($usuarios as $item)
@@ -325,6 +293,117 @@
   </div>
   @endforeach
   
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('storeDesdeAdmin.solicitud')}}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <label for="">Nombres</label>
+                <input type="text" name="nombres" id="" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label for="">Apellido Paterno</label>
+                <input type="text" name="apellidoPaterno" id="" class="multisteps-form__input form-control" >
+              </div>
+              <div class="col-6">
+                <label for="">Apellido Materno</label>
+                <input type="text" name="apellidoMaterno" id="" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label for="">DNI</label>
+                <input type="text" name="dni" id="" class="multisteps-form__input form-control" >
+              </div>
+              <div class="col-6">
+                <label for="">Email</label>
+                <input type="text" name="email" id="" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label for="">Telefono</label>
+                <input type="text" name="telefono" id="" class="multisteps-form__input form-control" >
+              </div>
+              <div class="col-6">
+                <label for="">Departamento</label>
+                <?php $departamentos = App\Models\Departamento::all(); ?>
+                <select name="idDepartamento" data-placeholder="Departamento" class="multisteps-form__input form-control">
+                    @foreach ($departamentos as $departamento)
+                    <option value="{{$departamento->id}}">{{$departamento->departamento}}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label for="">Provincia</label>
+                <?php $provincias = App\Models\Provincia::where('idDepartamento',6)->get(); ?>
+                <select name="idProvincia" data-placeholder="Provincia" class="multisteps-form__input form-control">
+                    @foreach ($provincias as $provincia)
+                    <option value="{{$provincia->id}}">{{$provincia->provincia}}</option>
+                    @endforeach
+                </select>
+              </div>
+              <div class="col-6">
+                <label for="">Distrito</label>
+                <?php $distritos = App\Models\Distrito::where('idProvincia', 1)->get(); ?>
+                <select name="idDistrito" data-placeholder="Distrito" class="multisteps-form__input form-control" >
+                    @foreach ($distritos as $distrito)
+                    <option value="{{$distrito->id}}">{{$distrito->distrito}}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="">Direccion</label>
+                <input type="text" name="direccion" id="" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <label for="">Foto Delantera DNI</label>
+                <input type="file" name="imgDniFront" accept="image/*, application/pdf" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <label for="">Foto Trasera DNI</label>
+                <input type="file" name="imgDniBack" accept="image/*, application/pdf" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <label for="">Copia de Escritura</label>
+                <input type="file" name="imgEscritura" accept="image/*, application/pdf" class="multisteps-form__input form-control" >
+              </div>
+            </div>
+            
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn bg-gradient-primary" data-bs-dismiss="modal">Crear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('script')

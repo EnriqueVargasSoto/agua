@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Suministro;
-use App\Models\Recibo;
+use App\Models\Ciclo;
 use App\Models\Concepto;
-use Carbon\Carbon;
+use App\Models\DetalleCiclo;
+use App\Models\Suministro;
+use App\Models\User;
 
-class SuministroController extends Controller
+class CicloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,8 @@ class SuministroController extends Controller
      */
     public function index()
     {
-        $suministros = Suministro::all();
-        return view('admin.pages.suministros.suministros')->with(compact('suministros'));
+        $ciclos = Ciclo::all();
+        return view('admin.pages.ciclos.ciclos')->with(compact('ciclos'));
     }
 
     /**
@@ -40,37 +41,28 @@ class SuministroController extends Controller
      */
     public function store(Request $request)
     {
-        $date = Carbon::now();
-        $fechaActual = $date->format('Y-m-d');
+        $ciclo = Ciclo::create([
+            'anio' => $request->anioNew,
+            'mes' => $request->mesNew,
+            'estado' => '0'
+        ]);
 
+        $usuarios = User::where('idRol', '2')->get();
         $suministros = Suministro::all();
-        $indice = count($suministros) + 1;
-        //$numerito = count($suministros);
-        $numeroConCeros = str_pad($indice, 5, "0", STR_PAD_LEFT);
-        //dd($numeroConCeros);
 
-        $suministro = Suministro::create([
-            'numero' => $indice,
-            'codigo' => $numeroConCeros,
-            'idUsuario' => $request->idUsuario,
-            'direccion' => $request->direccion,
-            'estado' => 'activo',
-            'medidaInicio' => 0.00,
-            'medidaFin' => 0.00,
-        ]);
+        $concepto = Concepto::where('concepto', 'Precio metro cúbico')->first();
 
-        $concepto = Concepto::where('concepto','Pago de inscripción')->first();
-        
-        $recibo = Recibo::create([
-            'idSuministro' => $suministro->id,
-            'concepto' => 'Pago por instalacion de suministro',
-            'cantidad' => 1,
-            'valor' => $concepto->valor,
-            'total' => $concepto->valor * 1,
-            'fechaEmision' => $fechaActual,
-            'estado' => 'pendiente',
-            'fechaVencimiento' => date("Y-m-d", strtotime($fechaActual."+ 1 week")),
-        ]);
+        foreach ($suministros as $key => $suministro) {
+
+
+            DetalleCiclo::create([
+                'idCiclo' => $ciclo->id,
+                'idSuministro' => $suministro->id,
+                'precio' => $concepto->valor,
+                'cantidad' =>  0.0,
+                'total' => 0.0
+            ]);
+        }
 
         return back();
     }
@@ -117,6 +109,9 @@ class SuministroController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ciclo = Ciclo::find($id);
+        $ciclo->delete();
+
+        return back();
     }
 }

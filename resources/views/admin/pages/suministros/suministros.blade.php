@@ -26,6 +26,8 @@
                                     <th>Numero de Suministro</th>
                                     <th>Afiliado</th>
                                     <th>Monto Deuda</th>
+                                    <th>Medida Inicial</th>
+                                    <th>Medida Final</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -45,8 +47,11 @@
                                         ?>
                                         <td class="text-sm font-weight-normal" style="text-align: center">{{$perfil->nombres}} {{$perfil->apellidoPaterno}} {{$perfil->apellidoMaterno}}</td>
                                         <td class="text-sm font-weight-normal" style="text-align: center">{{$monto}}</td>
+                                        <td class="text-sm font-weight-normal" style="text-align: center">{{$suministro->medidaInicio}}</td>
+                                        <td class="text-sm font-weight-normal" style="text-align: center">{{$suministro->medidaFin}}</td>
                                         <td class="text-sm font-weight-normal">
                                             <a href="#modalRecibo{{$suministro->id}}" data-bs-toggle="modal" class="btn btn-success">Recibos</a>
+                                            <a href="#"  class="btn btn-secundary">Historial</a>
                                             <a href="#editModal" data-bs-toggle="modal" class="btn btn-info">Editar</a>
                                             {{--@if ($concepto->tipo == 'editable')--}}
                                             <a href="" class="btn btn-danger">Eliminar</a>
